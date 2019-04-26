@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3130756038548395612
+--- !u!1 &2310856664820221613
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3130756038548395613}
-  - component: {fileID: 3130756038548395614}
-  - component: {fileID: 3130756038548395608}
-  - component: {fileID: 3130756038548395615}
+  - component: {fileID: 2310856664820221619}
+  - component: {fileID: 2310856664820221616}
+  - component: {fileID: 2310856664820221617}
+  - component: {fileID: 2310856664820221618}
+  - component: {fileID: 2310856664820221622}
   m_Layer: 0
   m_Name: Tunnel
   m_TagString: Untagged
@@ -19,13 +20,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3130756038548395613
+--- !u!4 &2310856664820221619
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3130756038548395612}
+  m_GameObject: {fileID: 2310856664820221613}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,40 +34,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3130756038548395614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3130756038548395612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fafd434c1375b740b1e08d61a87b45c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tunnelRadius: 1
-  tunnelSegmentCount: 8
-  ringDistance: 1
-  minCurveRadius: 4
-  maxCurveRadius: 20
-  minCurveSegmentCount: 4
-  maxCurveSegmentCount: 10
---- !u!33 &3130756038548395608
+--- !u!33 &2310856664820221616
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3130756038548395612}
+  m_GameObject: {fileID: 2310856664820221613}
   m_Mesh: {fileID: 0}
---- !u!23 &3130756038548395615
+--- !u!23 &2310856664820221617
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3130756038548395612}
+  m_GameObject: {fileID: 2310856664820221613}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -97,3 +79,36 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2310856664820221618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2310856664820221613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30c2f1b5e0e93648bb0d56ed6c33a55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tunnelSides: 30
+  tunnelRadius: 4
+  tunnelLength: 100
+  minBump: 0.025
+  maxBump: 0.05
+  minRotate: -90
+  maxRotate: 90
+--- !u!64 &2310856664820221622
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2310856664820221613}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 0}

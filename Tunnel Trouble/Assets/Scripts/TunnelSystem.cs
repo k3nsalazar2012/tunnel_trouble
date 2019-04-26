@@ -2,81 +2,81 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TunnelTrouble
+public class TunnelSystem : MonoBehaviour
 {
-    public class TunnelSystem : MonoBehaviour
+    [SerializeField]
+    private GameObject tunnelPrefab;
+
+    [SerializeField]
+    private int segment;
+
+    private Tunnel[] tunnels;
+    private List<Vector3> waypoints;
+
+    public void GenerateTunnel()
     {
-        #region Variables
-        [SerializeField]
-        private Tunnel tunnelPrefab;
-
-        [SerializeField]
-        private int tunnelCount;
-
-        private Tunnel[] tunnels; 
-        #endregion
-
-        private void Awake()
+        waypoints = new List<Vector3>();
+       
+        tunnels = new Tunnel[segment];
+        for (int i = 0; i < segment; i++)
         {
-            tunnels = new Tunnel[tunnelCount];
-            for (int i = 0; i < tunnelCount; i++)
+            GameObject tunnelObject = Instantiate(tunnelPrefab);
+            Tunnel tunnel = tunnelObject.GetComponent<Tunnel>();
+            tunnelObject.transform.SetParent(transform);
+            tunnelObject.transform.localScale = Vector3.one;
+
+            if (i == 0)
             {
-                Tunnel tunnel = tunnels[i] = Instantiate<Tunnel>(tunnelPrefab);
-                tunnel.transform.SetParent(transform, false);
-                tunnel.Generate();
-                if (i > 0)
-                    tunnel.AlignWith(tunnels[i - 1]);
+                tunnelObject.transform.localPosition = Vector3.zero;
+                tunnelObject.transform.localEulerAngles = Vector3.zero;
             }
-            AlignNextTunnelWithOrigin();
-        }
-
-        public Tunnel SetupFirstTunnel()
-        {
-            transform.localPosition = new Vector3(0f, -tunnels[1].CurveRadius);
-            return tunnels[1];
-        }
-
-        public Tunnel SetupNextTunnel()
-        {
-            ShiftTunnels();
-            AlignNextTunnelWithOrigin();
-            tunnels[tunnels.Length - 1].Generate();
-            tunnels[tunnels.Length - 1].AlignWith(tunnels[tunnels.Length - 2]);
-            transform.localPosition = new Vector3(0f, -tunnels[1].CurveRadius);
-            return tunnels[1];
-        }
-
-        private void ShiftTunnels()
-        {
-            Tunnel temp = tunnels[0];
-            for (int i = 1; i < tunnels.Length; i++)
+            else
             {
-                tunnels[i - 1] = tunnels[i];
-            }
-            tunnels[tunnels.Length - 1] = temp;
-        }
-
-        private void AlignNextTunnelWithOrigin()
-        {
-            Transform transformToAlign = tunnels[1].transform;
-            for (int i = 0; i < tunnels.Length; i++)
-            {
-                if (i != 1)
-                {
-                    tunnels[i].transform.SetParent(transformToAlign);
-                }
+                tunnelObject.transform.localPosition = tunnels[i - 1].EdgePosition;// + new Vector3(0f, 0f, tunnels[i-1].transform.localPosition.z);
+                tunnelObject.transform.localEulerAngles = tunnels[i - 1].EdgeRotation;
             }
 
-            transformToAlign.localPosition = Vector3.zero;
-            transformToAlign.localRotation = Quaternion.identity;
-
-            for (int i = 0; i < tunnels.Length; i++)
+            tunnel.Generate();
+            foreach (var point in tunnel.Waypoints)
             {
-                if (i != 1)
-                {
-                    tunnels[i].transform.SetParent(transform);
-                }
+                waypoints.Add(point);
             }
+            
+            tunnels[i] = tunnel;
         }
+
+        Debug.Log(waypoints.Count);
+        GenerateWaypoints();
+    }
+
+    void GenerateWaypoints()
+    {
+        GameObject points = new GameObject();
+        points.name = "Waypoints";
+        points.transform.SetParent(transform);
+        points.transform.localPosition = Vector3.zero;
+        points.transform.localScale = Vector3.one;
+
+        for (int i = 0; i < waypoints.Count; i++)
+        {
+            GameObject point = new GameObject();
+            point.transform.SetParent(points.transform);
+            point.transform.localPosition = waypoints[i];
+            point.transform.localScale = Vector3.one;
+            point.name = "Waypoint";
+
+            point.AddComponent<SphereCollider>().isTrigger = true;
+        }
+    }
+
+    public void Clear()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+            DestroyImmediate(transform.GetChild(i).gameObject);
+    }
+
+    public List<Vector3> Waypoints
+    {
+        get { return waypoints; }
     }
 }
